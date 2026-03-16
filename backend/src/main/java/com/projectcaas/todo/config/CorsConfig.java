@@ -17,6 +17,7 @@ public class CorsConfig implements WebMvcConfigurer {
                         "http://127.0.0.1",
                         "http://127.0.0.1:8080"
                 )
+            .allowedOriginPatterns("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .maxAge(3600);

@@ -38,7 +38,7 @@ ProjectCaaS/
 
 | Componente | Tecnologia | Porta |
 |------------|-----------|-------|
-| Backend    | Java 21 + Spring Boot 3.4 | 3000 |
+| Backend    | Java 21 + Spring Boot 3.4 | 25000 |
 | Frontend   | HTML/CSS/JS + Nginx | 80 |
 | Banco de dados | H2 (em memória) | — |
 
@@ -77,13 +77,13 @@ cd backend
 mvn spring-boot:run
 ```
 
-> Neste modo, apenas a API estará disponível em `http://localhost:3000`. O frontend precisa ser servido separadamente.
+> Neste modo, apenas a API estará disponível em `http://localhost:25000`. O frontend precisa ser servido separadamente.
 
 ---
 
 ## API REST
 
-A API está disponível na porta **3000** (acesso direto) ou via proxy Nginx na porta **80** (caminho `/items`).
+A API está disponível na porta **25000** (acesso direto) ou via proxy Nginx na porta **80** (caminho `/items`).
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|

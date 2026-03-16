@@ -3,11 +3,11 @@ const addBtn = document.getElementById('add-btn');
 const addForm = document.getElementById('add-form');
 const itemsList = document.getElementById('items-list');
 const emptyMsg = document.getElementById('empty-msg');
-const API_BASE_URL = 'http://172.31.130.202:25000';
+const API_BASE_URL = '';
 
 // Helper to prepend base URL
 function apiUrl(path) {
-    return API_BASE_URL + path;
+    return API_BASE_URL ? API_BASE_URL + path : path;
 }
 
 // Wrapper around fetch to automatically use base URL
