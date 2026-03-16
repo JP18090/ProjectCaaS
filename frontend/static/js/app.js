@@ -31,6 +31,7 @@ function createItemElement(item) {
     toggle.className = 'btn-icon toggle-btn';
     toggle.innerHTML = item.completed ? '&#9745;' : '&#9744;';
     toggle.title = item.completed ? 'Marcar como incompleto' : 'Marcar como concluído';
+    
     toggle.addEventListener('click', function () {
         fetch('/items/' + item.id, {
             method: 'PUT',
@@ -53,10 +54,11 @@ function createItemElement(item) {
     name.className = 'item-name';
     name.textContent = item.name;
 
-    var remove = document.createElement('button');
+    const remove = document.createElement('button');
     remove.className = 'btn-icon remove-btn';
     remove.innerHTML = '&#128465;';
     remove.title = 'Remover Item';
+    
     remove.addEventListener('click', function () {
         fetch('/items/' + item.id, { method: 'DELETE' })
             .then(function (r) {
@@ -100,13 +102,14 @@ function loadItems() {
 
 addForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var value = itemInput.value.trim();
+    const value = itemInput.value.trim();
     if (!value) return;
 
     addBtn.disabled = true;
     addBtn.textContent = 'Adicionando...';
 
-    fetch('/items'), {
+    // Correção: Parêntese movido para fechar após o objeto de configuração
+    fetch('/items', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: value }),
