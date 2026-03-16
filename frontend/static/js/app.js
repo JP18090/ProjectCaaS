@@ -5,8 +5,14 @@ const itemsList = document.getElementById('items-list');
 const emptyMsg = document.getElementById('empty-msg');
 const API_BASE_URL = 'http://172.31.130.202:25000';
 
+// Helper to prepend base URL
 function apiUrl(path) {
     return API_BASE_URL + path;
+}
+
+// Wrapper around fetch to automatically use base URL
+function apiFetch(path, options) {
+    return fetch(apiUrl(path), options);
 }
 
 function buildLogDetails(operation, extras) {
@@ -39,7 +45,6 @@ function ensureOkOrThrow(response, message, operation) {
         logHttpFailure(operation, response);
         throw new Error(message + ' (HTTP ' + response.status + ').');
     }
-
     return response;
 }
 
@@ -83,7 +88,7 @@ function createItemElement(item) {
             itemId: item.id,
             completed: !item.completed,
         }));
-        fetch(apiUrl('/items/' + item.id), {
+        apiFetch('/items/' + item.id, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: item.name, completed: !item.completed }),
@@ -113,7 +118,7 @@ function createItemElement(item) {
         console.info('[API] Enviando requisição', buildLogDetails('remover item (DELETE /items/:id)', {
             itemId: item.id,
         }));
-        fetch(apiUrl('/items/' + item.id), { method: 'DELETE' })
+        apiFetch('/items/' + item.id, { method: 'DELETE' })
             .then(function (r) {
                 ensureOkOrThrow(r, 'Não foi possível remover o item', 'remover item (DELETE /items/:id)');
             })
@@ -135,7 +140,7 @@ function createItemElement(item) {
 
 function loadItems() {
     console.info('[API] Enviando requisição', buildLogDetails('carregar itens (GET /items)'));
-    fetch(apiUrl('/items'))
+    apiFetch('/items')
         .then(function (r) {
             return parseJsonOrThrow(r, 'Não foi possível carregar os itens', 'carregar itens (GET /items)');
         })
@@ -163,7 +168,7 @@ addForm.addEventListener('submit', function (e) {
     console.info('[API] Enviando requisição', buildLogDetails('adicionar item (POST /items)', {
         nameLength: value.length,
     }));
-    fetch(apiUrl('/items'), {
+    apiFetch('/items', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: value }),
