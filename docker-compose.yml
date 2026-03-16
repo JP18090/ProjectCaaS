@@ -8,6 +8,7 @@ services:
 
   frontend:
     build: ./frontend
+    image: todo-frontend:latest
     container_name: todo-frontend
     ports:
       - "8080:8080"
