@@ -44,6 +44,12 @@ ProjectCaaS/
 
 ---
 
+## Arquitetura AWS 
+
+
+
+---
+
 ## Pré-requisitos
 
 - [Docker](https://docs.docker.com/get-docker/) e [Docker Compose](https://docs.docker.com/compose/install/)
