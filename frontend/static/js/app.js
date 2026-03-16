@@ -4,6 +4,20 @@ const addForm = document.getElementById('add-form');
 const itemsList = document.getElementById('items-list');
 const emptyMsg = document.getElementById('empty-msg');
 
+function showFriendlyError(message) {
+    window.alert(message);
+}
+
+function parseJsonOrThrow(response, message) {
+    if (!response.ok) {
+        throw new Error(message + ' (HTTP ' + response.status + ').');
+    }
+
+    return response.json().catch(function () {
+        throw new Error('O servidor retornou um formato inválido.');
+    });
+}
+
 function updateEmptyMessage() {
     emptyMsg.style.display = itemsList.children.length === 0 ? 'block' : 'none';
 }
@@ -23,9 +37,15 @@ function createItemElement(item) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: item.name, completed: !item.completed }),
         })
-            .then(function (r) { return r.json(); })
+            .then(function (r) {
+                return parseJsonOrThrow(r, 'Não foi possível atualizar o item');
+            })
             .then(function (updated) {
                 row.replaceWith(createItemElement(updated));
+            })
+            .catch(function (err) {
+                console.error(err);
+                showFriendlyError(err.message);
             });
     });
 
@@ -38,10 +58,20 @@ function createItemElement(item) {
     remove.innerHTML = '&#128465;';
     remove.title = 'Remover Item';
     remove.addEventListener('click', function () {
-        fetch('/items/' + item.id, { method: 'DELETE' }).then(function () {
-            row.remove();
-            updateEmptyMessage();
-        });
+        fetch('/items/' + item.id, { method: 'DELETE' })
+            .then(function (r) {
+                if (!r.ok) {
+                    throw new Error('Não foi possível remover o item (HTTP ' + r.status + ').');
+                }
+            })
+            .then(function () {
+                row.remove();
+                updateEmptyMessage();
+            })
+            .catch(function (err) {
+                console.error(err);
+                showFriendlyError(err.message);
+            });
     });
 
     row.appendChild(toggle);
@@ -52,13 +82,19 @@ function createItemElement(item) {
 
 function loadItems() {
     fetch('/items')
-        .then(function (r) { return r.json(); })
+        .then(function (r) {
+            return parseJsonOrThrow(r, 'Não foi possível carregar os itens');
+        })
         .then(function (items) {
             itemsList.innerHTML = '';
             items.forEach(function (item) {
                 itemsList.appendChild(createItemElement(item));
             });
             updateEmptyMessage();
+        })
+        .catch(function (err) {
+            console.error(err);
+            showFriendlyError(err.message);
         });
 }
 
@@ -75,13 +111,21 @@ addForm.addEventListener('submit', function (e) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: value }),
     })
-        .then(function (r) { return r.json(); })
+        .then(function (r) {
+            return parseJsonOrThrow(r, 'Não foi possível adicionar o item');
+        })
         .then(function (item) {
             itemsList.appendChild(createItemElement(item));
             itemInput.value = '';
             addBtn.disabled = false;
             addBtn.textContent = 'Adicionar Item';
             updateEmptyMessage();
+        })
+        .catch(function (err) {
+            console.error(err);
+            showFriendlyError(err.message);
+            addBtn.disabled = false;
+            addBtn.textContent = 'Adicionar Item';
         });
 });
 
