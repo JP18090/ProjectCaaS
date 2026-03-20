@@ -46,7 +46,7 @@ ProjectCaaS/
 
 ## Arquitetura AWS 
 
-<img width="922" height="303" alt="image" src="https://github.com/user-attachments/assets/cb9144a0-d7f5-45dc-96fd-f4eb97c13473" />
+<img width="926" height="298" alt="image" src="https://github.com/user-attachments/assets/e298e5bd-cfa4-45bc-a776-d8839c346753" />
 
 
 ---- 
