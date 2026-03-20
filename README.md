@@ -46,21 +46,21 @@ ProjectCaaS/
 
 ## Arquitetura AWS 
 
-<img width="1226" height="419" alt="566495257-c6c15dd7-a7a5-4f9d-9257-d74b0027441a" src="https://github.com/user-attachments/assets/2c42b095-aa6e-40fa-a8a1-218d94a2dbe5" />
+<img width="924" height="303" alt="image" src="https://github.com/user-attachments/assets/6aafcf7b-8598-41db-a149-1473d76ae851" />
 
 
+---- 
 | Componente                | Tipo / Tecnologia        | Detalhes |
 |--------------------------|--------------------------|----------|
 | VPC                      | Rede AWS                 | 10.0.0.0/16 |
 | Subnet Pública 1         | AWS Subnet               | 10.0.0.0/24 (AZ A) |
-| Subnet Pública 2         | AWS Subnet               | 10.0.2.0/24 (AZ B) |
 | Subnet Privada 1         | AWS Subnet               | 10.0.1.0/24 (AZ A) |
 | Subnet Privada 2         | AWS Subnet               | 10.0.3.0/24 (AZ B) |
 | Internet Gateway         | Gateway                  | Acesso externo (0.0.0.0/0) |
 | NAT Gateway              | Gateway                  | Saída da rede privada |
 | Tabela de Rota Pública   | Routing                  | Internet Gateway |
 | Tabela de Rota Privada   | Routing                  | NAT Gateway |
-| Servidor Web 1           | EC2 + IIS                | Subnet pública |
+| Servidor Web 1           | EC2                      | Subnet pública |
 | Servidor Web 2           | EC2                      | Subnet privada |
 | Grupo de Segurança       | Firewall AWS             | Protege instância IIS |
 
